@@ -46,8 +46,8 @@
 				
 				   <systemPropertyVariables>
 				 
-                    <environment>${env}</environment>
-                    <browser>${browser}</browser>
+                    <environment>https://www.hometown.in/</environment>
+                    <browser>chrome</browser>
                 </systemPropertyVariables>
 			</configuration>
 	</plugin>
