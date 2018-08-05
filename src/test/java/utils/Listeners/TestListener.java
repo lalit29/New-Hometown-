@@ -1,5 +1,6 @@
 package utils.Listeners;
 
+import com.hometown.qa.base.TestBase;
 import com.relevantcodes.extentreports.LogStatus;
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.TakesScreenshot;
@@ -7,12 +8,12 @@ import org.openqa.selenium.WebDriver;
 import org.testng.ITestContext;
 import org.testng.ITestListener;
 import org.testng.ITestResult;
-import tests.BaseTest;
+
 import utils.ExtentReports.ExtentManager;
 import utils.ExtentReports.ExtentTestManager;
 
 
-public class TestListener extends BaseTest implements ITestListener {
+public class TestListener extends TestBase implements ITestListener {
 
     private static String getTestMethodName(ITestResult iTestResult) {
         return iTestResult.getMethod().getConstructorOrMethod().getName();
@@ -44,6 +45,16 @@ public class TestListener extends BaseTest implements ITestListener {
         System.out.println("I am in onTestSuccess method " +  getTestMethodName(iTestResult) + " succeed");
         //Extentreports log operation for passed tests.
         ExtentTestManager.getTest().log(LogStatus.PASS, "Test passed");
+        
+      //Get driver from BaseTest and assign to local webdriver variable.
+        Object testClass = iTestResult.getInstance();
+        WebDriver webDriver = ((TestBase) testClass).getDriver();
+        String base64Screenshot = "data:image/png;base64,"+((TakesScreenshot)webDriver).
+                getScreenshotAs(OutputType.BASE64);
+        ExtentTestManager.getTest().log(LogStatus.PASS,"Test passed",
+                ExtentTestManager.getTest().addBase64ScreenShot(base64Screenshot));
+        ExtentTestManager.getTest().log(LogStatus.PASS,"Test Passed",
+                     ExtentTestManager.getTest().addScreencast("http://relevantcodes.com/Tools/ExtentReports2/issues/208/vid.mp4"));
     }
 
     @Override
@@ -52,15 +63,26 @@ public class TestListener extends BaseTest implements ITestListener {
 
         //Get driver from BaseTest and assign to local webdriver variable.
         Object testClass = iTestResult.getInstance();
-        WebDriver webDriver = ((BaseTest) testClass).getDriver();
+        WebDriver webDriver = ((TestBase) testClass).getDriver();
 
         //Take base64Screenshot screenshot.
         String base64Screenshot = "data:image/png;base64,"+((TakesScreenshot)webDriver).
                 getScreenshotAs(OutputType.BASE64);
+        
+        ExtentTestManager.getTest().log(LogStatus.FAIL,"Test Failed "+iTestResult.getName());
+        ExtentTestManager.getTest().log(LogStatus.FAIL,"Test Failed "+iTestResult.getThrowable());
+        
+        //ExtentTestManager.getTest().log(LogStatus.FAIL,"Test Failed"+iTestResult.getTestName());
+        //ExtentTestManager.getTest().log(LogStatus.FAIL,"Test Failed"+iTestResult.getTestContext());
+       // ExtentTestManager.getTest().log(LogStatus.FAIL,"Test Failed"+iTestResult.getHost());
+        
+                
 
         //Extentreports log and screenshot operations for failed tests.
         ExtentTestManager.getTest().log(LogStatus.FAIL,"Test Failed",
                 ExtentTestManager.getTest().addBase64ScreenShot(base64Screenshot));
+       // ExtentTestManager.getTest().log(LogStatus.FAIL,"Test Failed",
+         //       ExtentTestManager.getTest().addScreencast("http://relevantcodes.com/Tools/ExtentReports2/issues/208/vid.mp4"));
     }
 
     @Override

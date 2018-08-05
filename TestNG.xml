@@ -6,9 +6,14 @@
         <listener class-name="utils.Listeners.AnnotationTransformer"/>
     </listeners>
 
-    <test name="LoginTest">
+    <test name="Hometown Test">
+        
         <classes>
-            <class name="tests.LoginTests"/>
+             
+             <class name="com.hometown.qa.testcases.ForgotPasswordPageTest"></class>
+             
         </classes>
     </test>
+    
+    
 </suite>

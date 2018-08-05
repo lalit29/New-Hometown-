@@ -11,8 +11,9 @@ public class ExtentManager {
     public synchronized static ExtentReports getReporter(){
         if(extent == null){
             //Set HTML reporting file location
-            String workingDir = System.getProperty("user.dir");
-            extent = new ExtentReports(workingDir+"\\ExtentReports\\ExtentReportResults.html", true);
+           //String workingDir = System.getProperty("user.dir");
+            //extent = new ExtentReports(workingDir+"\\ExtentReports\\ExtentReportResults.html", true);
+            extent = new ExtentReports("C:\\Users\\436793\\eclipse-workspace\\New Hometown\\src\\main\\reports\\ExtentReportResults.html", true);
         }
         return extent;
     }
